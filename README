@@ -1,0 +1,121 @@
+Tema1 POO
+Nume: Țălină Laura-Florina
+Grupa: 324CB
+
+Clasa Vehicul
+	Clasa vehicul este clasa ce are ca atribute, gabaritul si costul.
+Clasa Bicicleta
+	Clasa Motocicleta extinde clasa parinte Vehicul, avand pe langa atributele
+	mostenite din clasa parinte, gabarit si cost, un atribut de tip string,
+	tip. Pentru a crea un obiect de tip Bicicleta, se utilizeaza constructorul,
+	care la randul sau utilizeaza constructorul cu parametri din clasa parinte,
+	primind 1 pentru gabarit, si 1 pentru cost. Atributul tip este setat cu
+	valoarea "Bicicleta".
+Clasa Motocicleta
+	Clasa Motocicleta extinde clasa parinte Vehicul, avand pe langa atributele
+	mostenite din clasa parinte, gabarit si cost, un atribut de tip string,
+	tip. Pentru a crea un obiect de tip Motocicleta, se utilizeaza constructorul,
+	care la randul sau utilizeaza constructorul cu parametri din clasa parinte,
+	primind 1 pentru gabarit, si 2 pentru cost. Atributul tip este setat cu
+	valoarea "Moped".
+Clasa Autoturism
+	Clasa Autoturism extinde clasa parinte Vehicul, avand pe langa atributele
+	mostenite din clasa parinte, gabarit si cost, un atribut de tip string,
+	tip. Pentru a crea un obiect de tip Autoturism, se utilizeaza constructorul,
+	care la randul sau utilizeaza constructorul cu parametri din clasa parinte,
+	primind 2 pentru gabarit, si 4 pentru cost. Atributul tip este setat cu
+	valoarea "Autovehicul".
+Clasa Camion
+	Clasa Camion extinde clasa parinte Vehicul, avand pe langa atributele
+	mostenite din clasa parinte, gabarit si cost, un atribut de tip string,
+	tip. Pentru a crea un obiect de tip Camion, se utilizeaza constructorul,
+	care la randul sau utilizeaza constructorul cu parametri din clasa parinte,
+	primind 3 pentru gabarit, si 6 pentru cost. Atributul tip este setat cu
+	valoarea "Camion".
+Pentru cele 4 clase, Bicicleta, Motocicleta, Autoturism, Camion, nu exista
+metode pentru returnarea valorii gabaritului sau al costului, deoarece valoarea
+acestora poate fi obtinuta prin apelarea metodelor din clasa parinte pentru
+un obiect de tip Bicicleta/ Motocicleta/ Autoturism/ Camion.
+
+Clasa Strada
+	Strada contine un nume, un cost de parcurgere, o limita de gabarit, un
+	punct de start "String start", un punct destinatie "String destinatie",
+	precum si lista posibilelor ambuteiaje "ArrayList<Ambuteiaje> listaAmbuteiaje"
+
+Clasa Ambuteiaj
+	Furnizeaza obiectele necesare listei de ambuteiaje a strazii.
+
+Clasa Harta
+	Intrucat, strazile sunt proiectate in asa fel incat contin punctul de start
+	si punctul destinatie, modelarea unei harti a orasului se reduce la
+	reprezentarea unei liste de strazi, aceasta furnizand toate informatiile
+	necesare.
+	
+	In metoda "costVehicul", costul total este setat initial ca fiind
+	Integer.MAX_VALUE, acesta fiind returnat in cazul in carenu exista
+	o strada intre punctele primite ca parametru, sau daca vehiculul
+	nu poate circula pe strada respectiva. Altfel, costul este calculat
+	ca fiind costul_strazii * costul_vehiculului + costul tuturor
+	ambuteiajelor.
+
+	Metoda "creeazaCale" este utilizata de catre metoda "aplicareDijkstra".
+	Se porneste de la punctul primit ca parametru, care este introdus in stringul
+	"cale". Daca acesta are un precedent, atunci si precedentul va fi introdus
+	in stringul "cale", in fata punctului anterior. Procedeul se repeta,
+	considerandu-se acum pe post de punct, precedentul.
+	La final este inlaturat " " de la inceputul stringului cale, care este in plus
+
+	Metoda "creeazaRezultat" este utilizata de catre metoda "aplicareDijkstra".
+	In cazul in care costul primit ca parametru este Integer.MAX_VALUE - 1, atunci
+	caii de puncte ii este concatenat "null", altfel ii este concatenat costul
+	finit.
+
+	Metoda "aplicareDijkstra" opereaza cu urmatoarele structuri:
+	- Un ArrayList puncteGraf, ce contine toata punctele din graf, fiind obtinuta
+	in urma apelarii metodei creeazaListaPuncte(). 
+	- Un HashMap distanta, ce contine drept cheie un punct din graf, iar drept
+ 	valoare costul de a ajunge in acel punct.
+	- Un HashMap anterior, care contine drept cheie un punct din graf, iar drept
+	valoare punctul prin care am trecut anterior, pentru a ajunge in punctul cheie.
+	- O CoadaPrioritati coadaPrioritati
+
+	Pentru fiecare punct din graf, cu exceptia celui de start, se seteaza costul
+	drept infinit (Integer.MAX_VALUE - 1). Pentru punctul de start, costul este 0.
+	Initial, niciun punct nu are un punct anterior. Se introduc in coada de
+	prioritati punctele, alaturi de costul acestora.
+
+	Cat timp coada de prioritati nu este vida, se extrage nodul cu cost minim.
+	Pentru fiecare punct ramas in coada de prioritati, se calculeaza costul de
+	a ajunge in punct, plecand din punctul cu cost minim, retinandu-se aceasta
+	valoare in "costVehicul". In cazul in care costVehicul este "infinit",
+	inseamna ca nu exista strada intre cele doua puncte, sau ca nu ii este
+	permis vehiculului sa circule.
+	
+	Pentru punctele pentru care este posibil, se recalculeaza distanta,
+	tinandu-se seama de faptul ca daca distanta nodului cu cost minim este
+	Integer.MAX_VALUE - 1, atunci acesteia nu ii mai este adaugata si valoarea
+	"costVehicul".  Se actualizeaza in distanta si coadaPrioritati, iar
+ 	anteriorul pentru punct devine nodul cu costul minim.
+	
+	Cand din coada de prioritati este extras punctul "end", daca acesta
+	nu are setat niciun nod anterior, inseamna ca nodul anterior este
+	chiar nodul start. Este apelata functia "creeazaCale", care va
+	intoarce succesiunea punctelor parcurse pana la ajungerea in punctul
+	destinatie, urmata de apelarea functiei "creeazaRezultat", care va
+	concatena stringului si costul de parcurgere. 
+
+	Metoda "drive" creeaza obiectul corespunzator vehiculului primit ca parametru,
+	si apeleaza functia "aplicareDiijkstra".
+
+Clasa CoadaPrioritati
+	 O instanta a acestei clase este utilizata de functia "aplicareDijkstra".
+
+Clasa Main
+	In metoda "AdaugaStradaCitita" se separa in cuvinte "detaliiStrada",
+	si se adauga in harta strada cu campurile corespunzatoare.
+
+	In metoda main se creeaza un obiect de tip harta, se deschid fisierele de
+	citire si scriere. Se citeste prima linie, extragandu-se nrStrazi, apoi
+	se citesc strazile adaugandu-se in harta. Restul liniilor reprezinta
+	comenzile. In cazul in care primul element de pe linie va fi drive, se va
+	apela metoda drive pe obiectul harta, altfel se va adauga o noua restrictie.
